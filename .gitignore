@@ -1,0 +1,13 @@
+.env
+
+# cachê do python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# arquivos temporários de testes locais e exportações
+*.png
+*.json
+.DS_Store
+Thumbs.db
