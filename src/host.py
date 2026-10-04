@@ -25,6 +25,7 @@ class Servidor:
     # inicia o servidor, configura as portas e fica no aguardo dos clientes
     def iniciar(self):
         srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #utilização de novo de porta logo após criar o socket do servidor
         srv.bind((HOST, PORTA_TCP))
         srv.listen()
         
@@ -222,7 +223,7 @@ class Servidor:
     # threada para um único cliente e existe enquanto esse cliente estiver conectado
     def tratar_cliente_tcp(self, connection, address):
         # como fim de 60s, o socket levanta exceção e limpa a memória
-        connection.settimeout(60.0) 
+        connection.settimeout(300.0) 
         
         while True:
             try:
