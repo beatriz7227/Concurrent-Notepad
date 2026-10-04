@@ -120,7 +120,7 @@ class BoardUI:
             
         # dicionário com cada tipo de forma geométrica à sua respetiva função lambda
         desenhos = {
-            "pen": lambda: self.canvas.create_line([float(p) for p in dados[0].split(",")], fill=cor, width=3, capstyle=tk.ROUND, smooth=True, tags=(tag,)),
+            "pen": lambda: self.canvas.create_line([float(p) for p in dados[0].split(",")] if len(dados[0].split(",")) >= 4 else [float(dados[0].split(",")[0]), float(dados[0].split(",")[1]), float(dados[0].split(",")[0])+1, float(dados[0].split(",")[1])+1], fill=cor, width=3, capstyle=tk.ROUND, smooth=True, tags=(tag,)),
             "shape_rect": lambda: self.canvas.create_rectangle(float(dados[0]), float(dados[1]), float(dados[2]), float(dados[3]), outline=cor, width=2, tags=(tag,)),
             "shape_oval": lambda: self.canvas.create_oval(float(dados[0]), float(dados[1]), float(dados[2]), float(dados[3]), outline=cor, width=2, tags=(tag,)),
             "shape_tri": lambda: self.canvas.create_polygon(float(dados[0]), float(dados[3]), (float(dados[0])+float(dados[2]))/2, float(dados[1]), float(dados[2]), float(dados[3]), outline=cor, fill="", width=2, tags=(tag,)),
