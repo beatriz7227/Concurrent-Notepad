@@ -8,11 +8,24 @@ Este projeto implementa uma aplicação de um quadro branco colaborativo em temp
 
 ## 📑 Sumário
 
+* [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 * [Principais Funcionalidades e Impactos](#-principais-funcionalidades-e-impactos)
-* [Conceitos de Redes e Arquitetura Aplicados](#-conceitos-de-redes-e-arquitetura-aplicados)
-* [Protocolo de Comunicação e Segurança](#-protocolo-de-comunicação-e-segurança)
 * [Organização de Arquivos](#-organização-de-arquivos)
 * [Como Executar a Aplicação](#-como-executar-a-aplicação)
+
+---
+
+## Tecnologias Utilizadas
+
+O projeto foi desenvolvido inteiramente em **python**, a partir de bibliotecas nativas e externas para garantir performance e segurança:
+
+* **Python 3.10+**: Linguagem principal para toda a lógica de cliente, servidor e interface.
+* **Tkinter & Tcl**: Biblioteca gráfica padrão do Python utilizada para a construção de toda a interface visual.
+* **Sockets**: API do sistema para a comunicação de rede através dos protocolos TCP e UDP.
+* **Concorrência**: Utilizada para gerir múltiplas conexões simultâneas no servidor e escutas assíncronas em segundo plano nos clientes sem bloquear.
+* **Criptografia Fernet**: Garante a confidencialidade e integridade dos pacotes de dados trocados na rede através de encriptação simétrica autenticada.
+* **Gestor de Ambiente (`python-dotenv`)**: Utilizado para carregar variáveis sensíveis e chaves de segurança ocultas a partir de um arquivo `.env`.
+* **Manipulação de Imagem (`Pillow`)**: Responsável pelos eventos de exportação do quadro para capturas de tela em formato PNG.
 
 ---
 
@@ -39,6 +52,19 @@ O projeto encontra-se modularizado para garantir coesão e eficiência da seguin
 * **Módulos UI (`ui/`)**: Contém os componentes visuais divididos modularmente (`board.py`, `login.py`, `canvas_ops.py`, `postit.py`).
 * **`file_io.py`**: Implementa os procedimentos para leitura e escrita para exportação/importação em JSON e PNG.
 
+### O que é a chave no `.env` e como defini-la?
+
+Para garantir a segurança das comunicações, o projeto utiliza **criptografia dimétrica fernet**. Isto significa que tanto o servidor quanto todos os clientes precisam de compartilhar exatamente a mesma chave para encriptar e desencriptar os pacotes na rede.
+
+* **O arquivo `.env`**: A aplicação lê esta chave de forma segura através de uma variável de ambiente contida num arquivo local `.env` .
+* **Como definir a sua própria chave**: 
+   Se quiser gerar uma chave nova e totalmente aleatória, execute este pequeno comando no seu terminal python:
+   ```python
+   python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+   ```
+#### Instrução de configuração:
+* Crie um arquivo chamado .env na raiz do projeto usando o arquivo de exemplo .env.example como base e insira a chave gerada. Todos os computadores que se conectarem à sala devem possuir exatamente a mesma chave configurada no respetivo arquivo `.env` para que o sistema consiga descodificar as mensagens.
+
 ---
 
 ## Como Executar a Aplicação
@@ -59,4 +85,5 @@ O projeto encontra-se modularizado para garantir coesão e eficiência da seguin
 ```bash
 python main.py
 ```
+
 * Na janela inicial, escolha se pretende hospedar uma sala, definindo uma senha de acesso, ou entrar em uma sala existente informando o endereço IP do host, o seu nome de usuário e a senha correspondente.
